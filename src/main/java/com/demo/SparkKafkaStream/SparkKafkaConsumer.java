@@ -1,9 +1,6 @@
 package com.demo.SparkKafkaStream;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.Serializable;
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Properties;
 
