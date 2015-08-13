@@ -2,7 +2,6 @@ package com.demo.SparkKafkaStream;
 
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
@@ -24,8 +23,14 @@ public class HBaseUtils {
 
     public HBaseUtils() {
         try {
-            //hConfig.addResource(new Path("file:///opt/mapr/hbase/hbase-0.98.12/conf/hbase-site.xml"));
             hConfig = HBaseConfiguration.create();
+            config.set("hbase.zookeeper.quorum", "localhost");
+            config.set("hbase.zookeeper.property.clientPort", "5181");
+            config.set("hbase.rootdir", "maprfs:///hbase");
+            config.set("hbase.cluster.distributed", "true");
+            config.set("dfs.support.append", "true");
+            config.set("hbase.fsutil.maprfs.impl", "org.apache.hadoop.hbase.util.FSMapRUtils");
+
             connection = HConnectionManager.createConnection(hConfig);
         } catch (Exception ex) {
             logger.info("Exception while init: " + ex.toString());
