@@ -24,7 +24,7 @@ public class HBaseUtils {
     public HBaseUtils() {
         try {
             hConfig = HBaseConfiguration.create();
-            config.set("hbase.zookeeper.quorum", "localhost");
+            config.set("hbase.zookeeper.quorum", "maprdemo");
             config.set("hbase.zookeeper.property.clientPort", "5181");
             config.set("hbase.rootdir", "maprfs:///hbase");
             config.set("hbase.cluster.distributed", "true");
