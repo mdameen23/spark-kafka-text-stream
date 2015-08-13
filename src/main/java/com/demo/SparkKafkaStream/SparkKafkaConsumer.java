@@ -46,9 +46,9 @@ public class SparkKafkaConsumer implements Serializable
 
         JavaDStream<String> strVals = unionStreams.map(new MapMessage());
 
-        //JavaDStream<String[]> vals = strVals.map(new ParseLine());
+        JavaDStream<String[]> vals = strVals.map(new ParseLine());
 
-        strVals.foreachRDD(new SaveToHBase());
+        vals.foreachRDD(new SaveToHBase());
 
         jsc.start();
         jsc.awaitTermination();
