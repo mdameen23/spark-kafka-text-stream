@@ -7,7 +7,6 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 
-
 public class App
 {
 	private static Logger logger = LogManager.getLogger(App.class.getName());

@@ -1,15 +1,11 @@
 package com.demo.SparkKafkaStream;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Properties;
 
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.storage.StorageLevel;
 import org.apache.spark.streaming.Duration;
-import org.apache.spark.streaming.Time;
 import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 
@@ -18,7 +14,6 @@ import consumer.kafka.ReceiverLauncher;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
-
 
 public class SparkKafkaConsumer implements Serializable
 {
@@ -46,26 +41,9 @@ public class SparkKafkaConsumer implements Serializable
         JavaDStream<MessageAndMetadata> unionStreams = ReceiverLauncher.launch(
                 jsc, props, numberOfReceivers, StorageLevel.MEMORY_ONLY());
 
-
-        unionStreams.foreachRDD(new Function2<JavaRDD<MessageAndMetadata>, Time, Void>() {
-            @Override
-            public Void call(JavaRDD<MessageAndMetadata> rdd, Time time) throws Exception {
-
-                List<MessageAndMetadata> vals = rdd.collect();
-                logger.info("Number of records in this batch " + vals.size());
-
-                if (vals.size() > 0) {
-                    for (MessageAndMetadata md:vals) {
-                        byte bytes[] = md.getPayload();
-                        String st = new String(bytes);
-                        logger.info("Message: " + st);
-                    }
-                }
-
-                return null;
-            }
-        }
-        );
+        logger.debug("Process RDD");
+        unionStreams.foreachRDD(new ReadMessage());
+        
         jsc.start();
         jsc.awaitTermination();
     }
