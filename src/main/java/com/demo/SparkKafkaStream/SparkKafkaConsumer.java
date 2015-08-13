@@ -42,7 +42,9 @@ public class SparkKafkaConsumer implements Serializable
                 jsc, props, numberOfReceivers, StorageLevel.MEMORY_ONLY());
 
         logger.debug("Process RDD");
-        unionStreams.foreachRDD(new ReadMessage());
+        //unionStreams.foreachRDD(new ReadMessage());
+
+        JavaDStream<String> strVals = unionStreams.map(new MapMessage());
 
         jsc.start();
         jsc.awaitTermination();
