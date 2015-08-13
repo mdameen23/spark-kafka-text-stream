@@ -10,6 +10,11 @@ import org.apache.spark.streaming.Time;
 
 import consumer.kafka.MessageAndMetadata;
 
+/*
+ * table in HBase
+ * create 'page_views' ,'views'
+ */
+
 public class SaveToHBase implements Function2<JavaRDD<String[]>, Time, Void> {
 
     private static Logger logger = LogManager.getLogger(SaveToHBase.class.getName());
