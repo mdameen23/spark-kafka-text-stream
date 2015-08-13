@@ -27,10 +27,10 @@ public class SaveToHBase implements Function2<JavaRDD<String[]>, Time, Void> {
 
         List<String[]> vals = rdd.collect();
         for (String[] eachRow:vals) {
-            String url = eachRow[2];
+			String url = eachRow[2];
 
             String curVal = hUtils.table_get(hTable, url, colFamily, colName);
-            logger.debug("Current Value for: " + url + " = " + curVal);
+            logger.info("Current Value for: " + url + " = " + curVal);
 
         }
 
