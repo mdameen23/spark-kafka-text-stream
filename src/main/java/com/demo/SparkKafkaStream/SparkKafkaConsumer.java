@@ -43,7 +43,7 @@ public class SparkKafkaConsumer implements Serializable
 
         logger.debug("Process RDD");
         unionStreams.foreachRDD(new ReadMessage());
-        
+
         jsc.start();
         jsc.awaitTermination();
     }

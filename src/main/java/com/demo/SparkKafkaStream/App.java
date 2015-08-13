@@ -9,8 +9,8 @@ import org.apache.log4j.LogManager;
 
 public class App
 {
-	private static Logger logger = LogManager.getLogger(App.class.getName());
-	
+    private static Logger logger = LogManager.getLogger(App.class.getName());
+
     public static void main( String[] args ) throws Exception
     {
         Properties props = new Properties();
