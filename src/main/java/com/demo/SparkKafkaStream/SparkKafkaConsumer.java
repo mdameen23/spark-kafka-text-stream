@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Properties;
 
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.storage.StorageLevel;
 import org.apache.spark.streaming.Duration;
 import org.apache.spark.streaming.api.java.JavaDStream;
@@ -46,8 +45,10 @@ public class SparkKafkaConsumer implements Serializable
         //unionStreams.foreachRDD(new ReadMessage());
 
         JavaDStream<String> strVals = unionStreams.map(new MapMessage());
-
+        
         JavaDStream<String[]> vals = strVals.map(new ParseLine());
+        
+        vals.print();
         
         jsc.start();
         jsc.awaitTermination();

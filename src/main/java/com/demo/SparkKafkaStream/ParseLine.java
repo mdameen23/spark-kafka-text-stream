@@ -11,13 +11,13 @@ import java.io.StringReader;
 public class ParseLine implements Function<String, String[]>{
 
     private static final long serialVersionUID = 4262618245950072140L;
-    private static Logger logger = LogManager.getLogger(MapMessage.class.getName());
+    private static Logger logger = LogManager.getLogger(ParseLine.class.getName());
 
     public String[] call(String line) throws Exception {
-        CSVReader reader = new CSVReader(new StringReader(line));
+        CSVReader reader = new CSVReader(new StringReader(line), '\t');
         String[] vals = reader.readNext();
 
-        logger.info("Mapped to : " + vals.length + " value(s)");
+        logger.info("Parsed to : " + vals.length + " value(s)");
         reader.close();
         return vals;
     }
