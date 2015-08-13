@@ -38,9 +38,12 @@ public class SaveToHBase implements Function2<JavaRDD<String>, Time, Void> {
             String url = vals[2];
             logger.info("Process URL: " + url);
 
-            String curVal = hUtils.table_get(hTable, url, colFamily, colName);
-            logger.info("Current Value for: " + url + " = " + curVal);
-
+			try {
+				String curVal = hUtils.table_get(hTable, url, colFamily, colName);
+				logger.info("Current Value for: " + url + " = " + curVal);
+			} catch(Exception ex) {
+				logger.info("Exception : " + ex.toString());
+			}
         }
 
         return null;
