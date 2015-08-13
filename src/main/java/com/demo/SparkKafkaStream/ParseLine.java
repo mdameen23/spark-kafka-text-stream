@@ -18,6 +18,7 @@ public class ParseLine implements Function<String, String[]>{
         String[] vals = reader.readNext();
 
         logger.info("Parsed to : " + vals.length + " value(s)");
+
         reader.close();
         return vals;
     }
