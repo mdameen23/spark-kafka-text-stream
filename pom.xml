@@ -27,6 +27,12 @@
             <artifactId>kafka-spark-consumer</artifactId>
             <version>1.0.3</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>3.5</version>
+        </dependency>
     </dependencies>
 
     <repositories>
