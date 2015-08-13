@@ -8,8 +8,6 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.streaming.Time;
 
-import consumer.kafka.MessageAndMetadata;
-
 /*
  * table in HBase
  * create 'page_views' ,'views'
