@@ -2,7 +2,6 @@ package com.demo.SparkKafkaStream;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
