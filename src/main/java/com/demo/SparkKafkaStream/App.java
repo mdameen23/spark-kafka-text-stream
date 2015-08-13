@@ -3,15 +3,13 @@ package com.demo.SparkKafkaStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.nio.ByteBuffer;
-import java.util.List;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 
 
-public class App implements Serializable
+public class App
 {
 	private static Logger logger = LogManager.getLogger(App.class.getName());
 	
