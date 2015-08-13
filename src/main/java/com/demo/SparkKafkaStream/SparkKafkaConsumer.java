@@ -26,7 +26,7 @@ import org.apache.log4j.LogManager;
 public class SparkKafkaConsumer implements Serializable
 {
     private static final long serialVersionUID = 4332618245650072140L;
-    private static Logger logger = LogManager.getLogger(App.class.getName());
+    private static Logger logger = LogManager.getLogger(SparkKafkaConsumer.class.getName());
     private Properties props;
 
     public SparkKafkaConsumer(Properties pr) {
