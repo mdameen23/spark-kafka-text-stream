@@ -45,11 +45,11 @@ public class SparkKafkaConsumer implements Serializable
         //unionStreams.foreachRDD(new ReadMessage());
 
         JavaDStream<String> strVals = unionStreams.map(new MapMessage());
-        
+
         JavaDStream<String[]> vals = strVals.map(new ParseLine());
-        
-        vals.print();
-        
+
+        vals.foreachRDD(new SaveToHBase());
+
         jsc.start();
         jsc.awaitTermination();
     }
