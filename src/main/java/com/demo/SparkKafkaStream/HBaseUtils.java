@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 
 public class HBaseUtils {
 
-	private static Logger logger = LogManager.getLogger(ParseLine.class.getName());
+	private static Logger logger = LogManager.getLogger(HBaseUtils.class.getName());
 
     private Configuration hConfig;
 
