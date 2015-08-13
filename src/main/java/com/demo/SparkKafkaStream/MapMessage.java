@@ -8,7 +8,6 @@ import consumer.kafka.MessageAndMetadata;
 public class MapMessage implements Function<MessageAndMetadata, String>{
 
     private static final long serialVersionUID = 4262618245650072140L;
-
     private static Logger logger = LogManager.getLogger(MapMessage.class.getName());
 
     public String call(MessageAndMetadata md) throws Exception {
