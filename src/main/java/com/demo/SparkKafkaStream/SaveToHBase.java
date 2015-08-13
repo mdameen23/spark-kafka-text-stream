@@ -28,8 +28,8 @@ public class SaveToHBase implements Function2<JavaRDD<String>, Time, Void> {
 
     public Void call(JavaRDD<String> rdd, Time time) throws Exception {
 
-        List<String> vals = rdd.collect();
-        for (String eachRow:vals) {
+        List<String> strVals = rdd.collect();
+        for (String eachRow:strVals) {
             CSVReader reader = new CSVReader(new StringReader(eachRow), '\t');
             String[] vals = reader.readNext();
 
