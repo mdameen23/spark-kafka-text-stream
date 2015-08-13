@@ -26,7 +26,7 @@ public class HBaseUtils {
     public void table_put(String tableName, String rowKey, String colFamily,
                           String col, String val) throws Exception {
 
-		logger.info("Put on: " + tableName + " " rowKey + " " + colFamily + ":" + col + " = " + val);
+		logger.info("Put on: " + tableName + " -> " + rowKey + " " + colFamily + ":" + col + " = " + val);
         HTable table = new HTable(hConfig, tableName);
         Put p = new Put(Bytes.toBytes(rowKey));
         p.add(Bytes.toBytes(colFamily), Bytes.toBytes(col),
@@ -38,7 +38,7 @@ public class HBaseUtils {
     public String table_get(String tableName, String rowKey, String colFamily,
             String col) throws Exception {
 
-		logger.info("Get on: " + tableName + " " rowKey + " " + colFamily + ":" + col);
+		logger.info("Get on: " + tableName + " -> " + rowKey + " " + colFamily + ":" + col);
         HTable table = new HTable(hConfig, tableName);
         Get g = new Get(Bytes.toBytes(rowKey));
         Result r = table.get(g);
