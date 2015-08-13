@@ -17,14 +17,13 @@ public class SaveToHBase implements Function2<JavaRDD<String[]>, Time, Void> {
 
     private static Logger logger = LogManager.getLogger(SaveToHBase.class.getName());
     private static final long serialVersionUID = 4232618245650972140L;
-    private static HBaseUtils hUtils = new HBaseUtils();
 
     private static String hTable = "page_views";
     private static String colFamily = "views";
     private static String colName = "total_views";
 
     public Void call(JavaRDD<String[]> rdd, Time time) throws Exception {
-
+		HBaseUtils hUtils = new HBaseUtils();
         List<String[]> vals = rdd.collect();
         for (String[] eachRow:vals) {
             String url = eachRow[2].toString();
