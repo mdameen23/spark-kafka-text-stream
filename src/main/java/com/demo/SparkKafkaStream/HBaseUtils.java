@@ -42,10 +42,11 @@ public class HBaseUtils {
                               String colFamily, String col) {
 
         try {
-            HTable myTable = new HTable(hConfig, tableName);
-            myTable.incrementColumnValue(Bytes.toBytes(rowKey), Bytes.toBytes(colFamily),
+			logger.info("Increment on: " + tableName + " -> " + rowKey + " " + colFamily + ":" + col);
+            theTable = connection.getTable(tableName);
+            theTable.incrementColumnValue(Bytes.toBytes(rowKey), Bytes.toBytes(colFamily),
                                       Bytes.toBytes(col), 1L);
-            myTable.close();
+            theTable.close();
         } catch (Exception ex) {
             logger.info("Exception: " + ex.toString());
         }
