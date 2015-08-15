@@ -8,6 +8,7 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.HConnection;
 import org.apache.hadoop.hbase.client.HConnectionManager;
 import org.apache.hadoop.hbase.client.HTableInterface;
+import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import org.apache.log4j.LogManager;
@@ -34,6 +35,19 @@ public class HBaseUtils {
             connection = HConnectionManager.createConnection(hConfig);
         } catch (Exception ex) {
             logger.info("Exception while init: " + ex.toString());
+        }
+    }
+
+    public void increment_col(String tableName, String rowKey,
+                              String colFamily, String col) {
+
+        try {
+            HTable myTable = new HTable(hConfig, tableName);
+            myTable.incrementColumnValue(Bytes.toBytes(rowKey), Bytes.toBytes(colFamily),
+                                      Bytes.toBytes(col), 1L);
+            myTable.close();
+        } catch (Exception ex) {
+            logger.info("Exception: " + ex.toString());
         }
     }
 
