@@ -1,7 +1,9 @@
 package com.demo.SparkKafkaStream;
 
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HColumnDescriptor;
+import org.apache.hadoop.hbase.HTableDescriptor;
+import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
@@ -10,6 +12,7 @@ import org.apache.hadoop.hbase.client.HConnectionManager;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.hadoop.conf.Configuration;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -21,6 +24,7 @@ public class HBaseUtils {
     private Configuration hConfig;
     private HConnection connection;
     private HTableInterface theTable;
+	private HBaseAdmin admin;
 
     public HBaseUtils() {
         try {
@@ -33,11 +37,23 @@ public class HBaseUtils {
             //hConfig.set("hbase.fsutil.maprfs.impl", "org.apache.hadoop.hbase.util.FSMapRUtils");
 
             connection = HConnectionManager.createConnection(hConfig);
+			admin = new HBaseAdmin(hConfig);
         } catch (Exception ex) {
             logger.info("Exception while init: " + ex.toString());
         }
     }
 
+    private void checkViewstable() {
+    	try {
+    		HTableDescriptor table = new HTableDescriptor(Bytes.toBytes("page_views"));	
+        	HColumnDescriptor family = new HColumnDescriptor(Bytes.toBytes("views"));
+        	table.addFamily(family);
+			admin.createTable(table);
+		} catch (Exception ex) {
+			logger.info("Exception while check table: " + ex.toString());
+		}
+    }
+	
     public void increment_col(String tableName, String rowKey,
                               String colFamily, String col) {
 
