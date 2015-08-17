@@ -51,7 +51,7 @@ public class HBaseUtils {
                 return;
             }
 
-            HTableDescriptor table = new HTableDescriptor(Bytes.toBytes(tableName));
+            HTableDescriptor table = new HTableDescriptor(tableName);
             HColumnDescriptor family = new HColumnDescriptor(Bytes.toBytes("views"));
             table.addFamily(family);
             admin.createTable(table);
