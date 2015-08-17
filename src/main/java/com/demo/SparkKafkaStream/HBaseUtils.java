@@ -43,7 +43,7 @@ public class HBaseUtils {
         }
     }
 
-    private void checkTable(String tableName) {
+    public void checkTable(String tableName) {
         try {
             logger.info("Checking table: " + tableName);
             if (admin.tableExists(tableName)) {
@@ -65,7 +65,6 @@ public class HBaseUtils {
                               String colFamily, String col) {
 
         try {
-            checkTable("page_views");
             logger.info("Increment on: " + tableName + " -> " + rowKey + " " + colFamily + ":" + col);
             theTable = connection.getTable(tableName);
             theTable.incrementColumnValue(Bytes.toBytes(rowKey), Bytes.toBytes(colFamily), Bytes.toBytes(col), 1L);

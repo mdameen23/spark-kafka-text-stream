@@ -48,6 +48,9 @@ public class SparkKafkaConsumer implements Serializable
 
         JavaDStream<String[]> vals = strVals.map(new ParseLine());
 
+		HBaseUtils hUtils = new HBaseUtils();
+		hUtils.checkTable("page_views");
+
         vals.foreachRDD(new SaveToHBase());
 
         jsc.start();
