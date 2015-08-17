@@ -24,7 +24,7 @@ public class HBaseUtils {
     private Configuration hConfig;
     private HConnection connection;
     private HTableInterface theTable;
-	private HBaseAdmin admin;
+    private HBaseAdmin admin;
 
     public HBaseUtils() {
         try {
@@ -37,28 +37,32 @@ public class HBaseUtils {
             //hConfig.set("hbase.fsutil.maprfs.impl", "org.apache.hadoop.hbase.util.FSMapRUtils");
 
             connection = HConnectionManager.createConnection(hConfig);
-			admin = new HBaseAdmin(hConfig);
+            admin = new HBaseAdmin(hConfig);
         } catch (Exception ex) {
             logger.info("Exception while init: " + ex.toString());
         }
     }
 
     private void checkViewstable() {
-    	try {
-    		HTableDescriptor table = new HTableDescriptor(Bytes.toBytes("page_views"));	
-        	HColumnDescriptor family = new HColumnDescriptor(Bytes.toBytes("views"));
-        	table.addFamily(family);
-			admin.createTable(table);
-		} catch (Exception ex) {
-			logger.info("Exception while check table: " + ex.toString());
-		}
+        try {
+            if (admin.tableExists(Bytes.toBytes("page_views"))) {
+                return;
+            }
+
+            HTableDescriptor table = new HTableDescriptor(Bytes.toBytes("page_views"));
+            HColumnDescriptor family = new HColumnDescriptor(Bytes.toBytes("views"));
+            table.addFamily(family);
+            admin.createTable(table);
+        } catch (Exception ex) {
+            logger.info("Exception while check table: " + ex.toString());
+        }
     }
-	
+
     public void increment_col(String tableName, String rowKey,
                               String colFamily, String col) {
 
         try {
-			logger.info("Increment on: " + tableName + " -> " + rowKey + " " + colFamily + ":" + col);
+            logger.info("Increment on: " + tableName + " -> " + rowKey + " " + colFamily + ":" + col);
             theTable = connection.getTable(tableName);
             theTable.incrementColumnValue(Bytes.toBytes(rowKey), Bytes.toBytes(colFamily),
                                       Bytes.toBytes(col), 1L);
