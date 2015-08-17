@@ -45,14 +45,17 @@ public class HBaseUtils {
 
     private void checkViewstable() {
         try {
+			logger.info("Checking table 'page_views'");
             if (admin.tableExists(Bytes.toBytes("page_views"))) {
-                return;
+                logger.info("table 'page_views' exists");
+				return;
             }
 
             HTableDescriptor table = new HTableDescriptor(Bytes.toBytes("page_views"));
             HColumnDescriptor family = new HColumnDescriptor(Bytes.toBytes("views"));
             table.addFamily(family);
             admin.createTable(table);
+			logger.info("table 'page_views' created");
         } catch (Exception ex) {
             logger.info("Exception while check table: " + ex.toString());
         }
@@ -62,6 +65,7 @@ public class HBaseUtils {
                               String colFamily, String col) {
 
         try {
+			checkViewstable();
             logger.info("Increment on: " + tableName + " -> " + rowKey + " " + colFamily + ":" + col);
             theTable = connection.getTable(tableName);
             theTable.incrementColumnValue(Bytes.toBytes(rowKey), Bytes.toBytes(colFamily),
