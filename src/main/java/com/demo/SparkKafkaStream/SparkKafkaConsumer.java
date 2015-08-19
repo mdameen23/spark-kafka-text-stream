@@ -35,6 +35,9 @@ public class SparkKafkaConsumer implements Serializable
                 "spark.streaming.receiver.writeAheadLog.enable", "false");
         _sparkConf.setMaster("local[4]");
 
+        HBaseUtils hUtils = new HBaseUtils();
+        hUtils.checkTable("page_views");
+
         JavaStreamingContext jsc = new JavaStreamingContext(_sparkConf, new Duration(1000));
         int numberOfReceivers = 1;
 
@@ -47,9 +50,6 @@ public class SparkKafkaConsumer implements Serializable
         JavaDStream<String> strVals = unionStreams.map(new MapMessage());
 
         JavaDStream<String[]> vals = strVals.map(new ParseLine());
-
-		HBaseUtils hUtils = new HBaseUtils();
-		hUtils.checkTable("page_views");
 
         vals.foreachRDD(new SaveToHBase());
 
