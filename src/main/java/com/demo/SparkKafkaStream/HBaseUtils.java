@@ -23,18 +23,17 @@ public class HBaseUtils {
 
     private Configuration hConfig;
     private HConnection connection;
-    private HTableInterface theTable;
     private HBaseAdmin admin;
 
     public HBaseUtils() {
         try {
             hConfig = HBaseConfiguration.create();
-            //hConfig.set("hbase.zookeeper.quorum", "maprdemo");
-            //hConfig.set("hbase.zookeeper.property.clientPort", "5181");
-            //hConfig.set("hbase.rootdir", "maprfs:///hbase");
-            //hConfig.set("hbase.cluster.distributed", "true");
-            //hConfig.set("dfs.support.append", "true");
-            //hConfig.set("hbase.fsutil.maprfs.impl", "org.apache.hadoop.hbase.util.FSMapRUtils");
+            hConfig.set("hbase.zookeeper.quorum", "maprdemo");
+            hConfig.set("hbase.zookeeper.property.clientPort", "5181");
+            hConfig.set("hbase.rootdir", "maprfs:///hbase");
+            hConfig.set("hbase.cluster.distributed", "true");
+            hConfig.set("dfs.support.append", "true");
+            hConfig.set("hbase.fsutil.maprfs.impl", "org.apache.hadoop.hbase.util.FSMapRUtils");
 
             connection = HConnectionManager.createConnection(hConfig);
             admin = new HBaseAdmin(hConfig);
@@ -66,9 +65,9 @@ public class HBaseUtils {
 
         try {
             logger.info("Increment on: " + tableName + " -> " + rowKey + " " + colFamily + ":" + col);
-            theTable = connection.getTable(tableName);
-            theTable.incrementColumnValue(Bytes.toBytes(rowKey), Bytes.toBytes(colFamily), Bytes.toBytes(col), 1L);
-            theTable.close();
+            HTable myTable = new HTable(hConfig, tableName);
+            myTable.incrementColumnValue(Bytes.toBytes(rowKey), Bytes.toBytes(colFamily), Bytes.toBytes(col), 1L);
+            myTable.close();
         } catch (Exception ex) {
             logger.info("Exception: " + ex.toString());
         }
@@ -78,23 +77,23 @@ public class HBaseUtils {
                           String col, String val) throws Exception {
 
         logger.info("Put on: " + tableName + " -> " + rowKey + " " + colFamily + ":" + col + " = " + val);
-        theTable = connection.getTable(tableName);
+        HTable myTable = new HTable(hConfig, tableName);
         Put p = new Put(Bytes.toBytes(rowKey));
         p.add(Bytes.toBytes(colFamily), Bytes.toBytes(col),Bytes.toBytes(val));
-        theTable.put(p);
-        theTable.close();
+        myTable.put(p);
+        myTable.close();
     }
 
     public String table_get(String tableName, String rowKey, String colFamily,
             String col) throws Exception {
 
         logger.info("Get on: " + tableName + " -> " + rowKey + " " + colFamily + ":" + col);
-        theTable = connection.getTable(tableName);
+        HTable myTable = new HTable(hConfig, tableName);
         Get g = new Get(Bytes.toBytes(rowKey));
-        Result r = theTable.get(g);
+        Result r = myTable.get(g);
         byte[] value = r.getValue(Bytes.toBytes(colFamily), Bytes.toBytes(col));
         String strVal = Bytes.toString(value);
-        theTable.close();
+        myTable.close();
         return strVal;
     }
 }
