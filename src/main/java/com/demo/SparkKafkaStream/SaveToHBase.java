@@ -10,7 +10,7 @@ import org.apache.spark.streaming.Time;
 
 /*
  * table in HBase
- * create 'page_views' ,'views'
+ * create '/user/root/page_views' ,'views'
  */
 
 public class SaveToHBase implements Function2<JavaRDD<String[]>, Time, Void> {
@@ -18,25 +18,25 @@ public class SaveToHBase implements Function2<JavaRDD<String[]>, Time, Void> {
     private static Logger logger = LogManager.getLogger(SaveToHBase.class.getName());
     private static final long serialVersionUID = 4232618245650972140L;
 
-    private static String hTable = "page_views";
+    private static String hTable = "/user/root/page_views";
     private static String colFamily = "views";
     private static String colName = "total_views";
 
     public Void call(JavaRDD<String[]> rdd, Time time) throws Exception {
-		HBaseUtils hUtils = new HBaseUtils();
+        HBaseUtils hUtils = new HBaseUtils();
         List<String[]> vals = rdd.collect();
         for (String[] eachRow:vals) {
             String url = eachRow[2].toString();
 
-			logger.info("Process URL: " + url);
-			try {
-				hUtils.increment_col(hTable, url, colFamily, colName);
-				
+            logger.info("Process URL: " + url);
+            try {
+                hUtils.increment_col(hTable, url, colFamily, colName);
+
                 String curVal = hUtils.table_get(hTable, url, colFamily, colName);
-				logger.info("Current Value for: " + url + " = " + curVal);
-			} catch(Exception ex) {
-				logger.info("Exception : " + ex.toString());
-			}
+                logger.info("Current Value for: " + url + " = " + curVal);
+            } catch(Exception ex) {
+                logger.info("Exception : " + ex.toString());
+            }
         }
 
         return null;

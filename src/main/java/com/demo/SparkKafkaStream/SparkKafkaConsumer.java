@@ -36,7 +36,7 @@ public class SparkKafkaConsumer implements Serializable
         _sparkConf.setMaster("local[4]");
 
         HBaseUtils hUtils = new HBaseUtils();
-        hUtils.checkTable("page_views");
+        hUtils.checkTable("/user/root/page_views");
 
         JavaStreamingContext jsc = new JavaStreamingContext(_sparkConf, new Duration(1000));
         int numberOfReceivers = 1;
